@@ -1,11 +1,13 @@
 import AppLoading from "expo-app-loading";
 import React, { useState } from "react";
-import { Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as Font from "expo-font";
 import { cacheImage } from "./utils";
 import { NavigationContainer } from "@react-navigation/native";
 import { HomeNav } from "./src/navigations/component";
+import { darkTheme, lightTheme } from "./src/theme/theme";
+import { ThemeProvider } from "styled-components/native";
+import { useColorScheme } from "react-native";
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
@@ -25,10 +27,13 @@ export default function App() {
       console.log(e.message);
     }
   };
+  const mode = useColorScheme();
 
   return isReady ? (
     <NavigationContainer>
-      <HomeNav />
+      <ThemeProvider theme={mode === "dark" ? darkTheme : lightTheme}>
+        <HomeNav />
+      </ThemeProvider>
     </NavigationContainer>
   ) : (
     <AppLoading
