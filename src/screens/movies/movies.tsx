@@ -1,7 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Dimensions } from "react-native";
+import Swiper from "react-native-web-swiper";
+import styled from "styled-components/native";
 import { movieApi } from "../../api";
 import { StackDefaultScreenProps } from "../../navigations/definitions";
+
+const Header = styled.View`
+  width: 100%;
+  height: ${Dimensions.get("screen").height / 3}px;
+`;
+
+const Section = styled.View`
+  height: 100%;
+  background-color: red;
+`;
+
+const Text = styled.Text``;
 
 export interface MovieContent {
   backdrop_path: string;
@@ -75,8 +89,18 @@ export const MoviesScreen: React.FC<StackDefaultScreenProps<"Home">> = () => {
   }, []);
 
   return (
-    <View>
-      <Text>Movies</Text>
-    </View>
+    <Header>
+      <Swiper controlsEnabled={false} loop timeout={2}>
+        <Section>
+          <Text>Hello</Text>
+        </Section>
+        <Section>
+          <Text>Hello</Text>
+        </Section>
+        <Section>
+          <Text>Hello</Text>
+        </Section>
+      </Swiper>
+    </Header>
   );
 };
