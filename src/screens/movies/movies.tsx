@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions } from "react-native";
+import { ActivityIndicator, Dimensions } from "react-native";
 import Swiper from "react-native-web-swiper";
 import styled from "styled-components/native";
 import { movieApi } from "../../api";
+import { MovieContent, MovieItem } from "../../components/MovieItem";
 import { StackDefaultScreenProps } from "../../navigations/definitions";
+
+const Container = styled.View`
+  flex: 1;
+  background-color: black;
+`;
 
 const Header = styled.View`
   width: 100%;
@@ -15,17 +21,9 @@ const Section = styled.View`
   background-color: red;
 `;
 
-const Text = styled.Text``;
-
-export interface MovieContent {
-  backdrop_path: string;
-  poster_path: string;
-  title: string;
-  id: number;
-  genreIds: number[];
-  vote_average: number;
-  vote_count: number;
-}
+const Text = styled.Text`
+  color: white;
+`;
 
 export const MoviesScreen: React.FC<StackDefaultScreenProps<"Home">> = () => {
   const [nowPlaying, setNowPlaying] = useState<Array<MovieContent>>([]);
@@ -85,22 +83,22 @@ export const MoviesScreen: React.FC<StackDefaultScreenProps<"Home">> = () => {
   };
 
   useEffect(() => {
-    //getData();
+    getData();
   }, []);
 
   return (
-    <Header>
-      <Swiper controlsEnabled={false} loop timeout={2}>
-        <Section>
-          <Text>Hello</Text>
-        </Section>
-        <Section>
-          <Text>Hello</Text>
-        </Section>
-        <Section>
-          <Text>Hello</Text>
-        </Section>
-      </Swiper>
-    </Header>
+    <Container>
+      {loading && <ActivityIndicator />}
+      {!loading && (
+        <Header>
+          <Text>Now Playing..</Text>
+          <Swiper controlsEnabled={false} loop timeout={3}>
+            {nowPlaying.map((movie) => (
+              <MovieItem key={movie.id} movie={movie} />
+            ))}
+          </Swiper>
+        </Header>
+      )}
+    </Container>
   );
 };

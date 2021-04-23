@@ -72,3 +72,6 @@ export const tvApi = {
       },
     }),
 };
+
+export const apiImageUrl = (path: string) =>
+  `https://image.tmdb.org/t/p/w500${path}`;
